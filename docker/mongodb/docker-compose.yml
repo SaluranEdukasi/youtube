@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: <YOUR_CONTAINER_NAME>
+    image: mongo:latest
+    restart: always
+    command: [--auth]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=<YOUR_USERNAME>
+      - MONGO_INITDB_ROOT_PASSWORD=<YOUR_PASSWORD>
+    ports:
+      - <YOUR_CUSTOM_PORT>:27017
+    volumes:
+      - ./data/<YOUR_FOLDER>/db/:/data/db
+      - ./data/<YOUR_FOLDER>/log/:/var/log/mongodb/
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - backend
+
+networks:
+  frontend:
+    name: <YOUR_NETWORK1_NAME>
+  backend:
+    name: <YOUR_NETWORK2_NAME>
